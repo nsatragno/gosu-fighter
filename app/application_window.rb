@@ -19,7 +19,10 @@ class ApplicationWindow < Gosu::Window
   def update
     @player.update
     @map.update
-    @map.colliding? @player
+    if @map.colliding? @player then
+      @map.stop_moving!
+      @player.die!
+    end
   end
 
   def draw

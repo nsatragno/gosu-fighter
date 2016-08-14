@@ -3,10 +3,13 @@ require './app/wall.rb'
 
 # Handles a lot of walls around the player.
 class Map
-  SPEED = 1
+  STARTING_SPEED = 1
+
   def initialize
     @ceiling = []
     @floor = []
+
+    @speed = STARTING_SPEED
 
     create_ceiling! while need_wall? @ceiling
     create_floor! while need_wall? @floor
@@ -17,8 +20,8 @@ class Map
     create_floor! if need_wall? @floor
     [@ceiling, @floor].each do |list|
       list.delete_if do |wall|
-        wall.point1[0] -= SPEED
-        wall.point2[0] -= SPEED
+        wall.point1[0] -= @speed
+        wall.point2[0] -= @speed
         wall.point2[0] < 0
       end
     end
@@ -30,8 +33,11 @@ class Map
     return true if colliding_with_floor? player.bottom_aft
     return true if colliding_with_ceiling? player.nose
     return true if colliding_with_floor? player.nose
-    p 'not colliding'
     false
+  end
+
+  def stop_moving!
+    @speed = 0
   end
 
   def draw
@@ -40,7 +46,6 @@ class Map
         wall.draw
       end
     end
-    Sprites::PIXEL.draw @last_nose, get_wall_height_at(@last_nose, @ceiling), 5, 3, 3
   end
 
   private

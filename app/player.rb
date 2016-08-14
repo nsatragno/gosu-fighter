@@ -3,17 +3,27 @@ require "./app/sprites.rb"
 # The game player character.
 class Player
 
+  WIDTH = 30
+  HEIGHT = 25
+
   # Up / Down movement speed.
   SPEED = 3
 
   PLAYER_Z_ORDER = 1
 
+  attr_reader :top_aft, :bottom_aft, :nose
+
   def initialize
     @sprite = Sprites::PLAYER
+    @pixel = Sprites::PIXEL
 
-    # TODO Remove this magic numbers.
+    # Top left coordinates.
     @x = 10
     @y = 320
+
+    @top_aft = [@x + 5, @y]
+    @bottom_aft = [@x + 5, @y + HEIGHT]
+    @nose = [@x + WIDTH, @y + HEIGHT / 2]
   end
 
   def update

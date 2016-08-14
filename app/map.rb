@@ -24,15 +24,43 @@ class Map
     end
   end
 
+  def colliding?(player)
+    @last_nose = player.nose[0]
+    return true if colliding_with_ceiling? player.top_aft
+    return true if colliding_with_floor? player.bottom_aft
+    return true if colliding_with_ceiling? player.nose
+    return true if colliding_with_floor? player.nose
+    p 'not colliding'
+    false
+  end
+
   def draw
     [@ceiling, @floor].each do |list|
       list.each do |wall|
         wall.draw
       end
     end
+    Sprites::PIXEL.draw @last_nose, get_wall_height_at(@last_nose, @ceiling), 5, 3, 3
   end
 
   private
+  def get_wall_height_at(x, walls)
+    wall = walls.detect do |wall|
+      wall.point2[0] > x
+    end
+    wall_point_y = (x - wall.point1[0]) * wall.y_length / wall.x_length + wall.point1[1]
+  end
+
+  def colliding_with_ceiling?(point)
+    wall_height = get_wall_height_at point[0], @ceiling
+    wall_height >= point[1]
+  end
+
+  def colliding_with_floor?(point)
+    wall_height = get_wall_height_at point[0], @floor
+    wall_height <= point[1]
+  end
+
   def need_wall?(wall_list)
     return true if wall_list.empty?
     wall_list.last.point2[0] < ApplicationWindow::WINDOW_WIDTH

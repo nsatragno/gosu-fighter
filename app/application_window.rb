@@ -19,6 +19,7 @@ class ApplicationWindow < Gosu::Window
   def update
     @player.update
     @map.update
+    @map.colliding? @player
   end
 
   def draw

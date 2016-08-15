@@ -14,6 +14,8 @@ class ApplicationWindow < Gosu::Window
     self.caption = WINDOW_NAME
     @player = Player.new
     @map = Map.new
+    @frames = 0
+    @difficulty = 0
   end
 
   def update
@@ -22,6 +24,11 @@ class ApplicationWindow < Gosu::Window
     if @map.colliding? @player then
       @map.stop_moving!
       @player.die!
+    end
+    @frames += 1
+    if @frames % 256 == 0
+      @difficulty += 1
+      @map.set_difficulty! @difficulty
     end
   end
 

@@ -8,6 +8,9 @@ module GlobalRandom
   end
 
   def GlobalRandom.between(min, max)
+    if max == min then
+      return min
+    end
     RANDOM.rand(max - min) + min
   end
 end

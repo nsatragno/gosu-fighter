@@ -10,21 +10,17 @@ class Menu
   end
 
   def update
-    if Gosu::button_down? Gosu::KbW then
-      @selected_item_index -= 1
-    end
-    if Gosu::button_down? Gosu::KbS then
-      @selected_item_index += 1
-    end
+    # Do nothing
+  end
 
-    if @selected_item_index >= MENU_OPTIONS.count then
-      @selected_item_index = 0
-    elsif @selected_item_index < 0 then
-      @selected_item_index = MENU_OPTIONS.count - 1
-    end
-
-    if Gosu::button_down? Gosu::KbReturn then
-      p 'selected', MENU_OPTIONS[@selected_item_index][0]
+  def button_down(button)
+    case button
+      when Gosu::KbW then
+        move_selection -1
+      when Gosu::KbS then
+        move_selection 1
+      when Gosu::KbReturn then
+        p 'selected', MENU_OPTIONS[@selected_item_index][0]
     end
   end
 
@@ -37,4 +33,15 @@ class Menu
       i += 1
     end
   end
+
+  private
+  def move_selection(delta)
+    @selected_item_index += delta
+    if @selected_item_index >= MENU_OPTIONS.count then
+      @selected_item_index = 0
+    elsif @selected_item_index < 0 then
+      @selected_item_index = MENU_OPTIONS.count - 1
+    end
+  end
+
 end

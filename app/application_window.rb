@@ -56,6 +56,7 @@ class ApplicationWindow < Gosu::Window
 
   # Listens for global button presses.
   def button_down(button)
+    @menu.button_down button
     if button == Gosu::KbEscape
       close
     end

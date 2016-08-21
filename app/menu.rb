@@ -30,6 +30,9 @@ class Menu
     i = 0
     MENU_OPTIONS.each do |option|
       @font.draw option[1], 300, i * 50 + 350, MENU_Z_INDEX, 1, 1, 0xff_ff00ff
+      if @selected_item_index == i then
+        Sprites::PLAYER.draw 250, i * 50 + 350, MENU_Z_INDEX, 0.5, 0.5
+      end
       i += 1
     end
   end

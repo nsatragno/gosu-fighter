@@ -1,11 +1,13 @@
 require './app/map'
 require './app/player'
+require './app/scope'
 
 # Handles the game loop.
 class Game
   def initialize
     @player = Player.new
     @map = Map.new
+    @scope = Scope.new
     @frames = 0
     @difficulty = 0
   end
@@ -13,6 +15,7 @@ class Game
   def update
     @player.update
     @map.update
+    @scope.update
     if @map.colliding? @player then
       @map.stop_moving!
       @player.die!
@@ -27,6 +30,7 @@ class Game
   def draw
     @player.draw
     @map.draw
+    @scope.draw
   end
 
 end

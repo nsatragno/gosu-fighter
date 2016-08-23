@@ -3,14 +3,11 @@ class Menu
 
   MENU_OPTIONS = [[:play, "Play"], [:about, "About"]]
 
-  def initialize
+  def initialize(window)
     @logo = Sprites::MENU
     @font = Gosu::Font.new 20
     @selected_item_index = 0
-  end
-
-  def update
-    # Do nothing
+    @window = window
   end
 
   def button_down(button)
@@ -20,7 +17,10 @@ class Menu
       when Gosu::KbS then
         move_selection 1
       when Gosu::KbReturn then
-        p 'selected', MENU_OPTIONS[@selected_item_index][0]
+        if MENU_OPTIONS[@selected_item_index][0] == :play then
+          @window.state = Game.new
+          # TODO implement about page.
+        end
     end
   end
 

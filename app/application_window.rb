@@ -1,64 +1,43 @@
-require './app/map.rb'
+require './app/game.rb'
 require './app/menu'
-require './app/player.rb'
 
-# Handles the game window as well as the game loop.
+# Handles the game window and owns the current state, delegating update, draw,
+# and key events to them.
 class ApplicationWindow < Gosu::Window
 
+  # Window width and height in pixels.
   WINDOW_WIDTH = 640
   WINDOW_HEIGHT = 480
 
-  WINDOW_NAME = "Test"
+  # Title bar text.
+  WINDOW_NAME = "Gosu fighter"
+
+  # A state may be the game loop or the menu loop. This is made writeable
+  # to allow jumping between states.
+  attr_writer :state
 
   def initialize
     super WINDOW_WIDTH, WINDOW_HEIGHT
     self.caption = WINDOW_NAME
-    @menu = Menu.new
-
-    # TODO remove this flag and add a state machine.
-    @in_menu = true
-
-    @player = Player.new
-    @map = Map.new
-    @frames = 0
-    @difficulty = 0
+    @state = Menu.new self
   end
 
+  # Called every frame before drawing.
   def update
-    # TODO state machine.
-    if @in_menu then
-      @menu.update
-    else
-      @player.update
-      @map.update
-      # TODO move the map.colliding? and difficulty logic somewhere else.
-      if @map.colliding? @player then
-        @map.stop_moving!
-        @player.die!
-      end
-      @frames += 1
-      if @frames % 256 == 0
-        @difficulty += 1
-        @map.set_difficulty! @difficulty
-      end
-    end
+    @state.update if @state.respond_to? :update
   end
 
+  # Called every frame to draw unless the CPU cannot keep up updating.
   def draw
-    # TODO state machine.
-    if @in_menu then
-      @menu.draw
-    else
-      @player.draw
-      @map.draw
-    end
+    @state.draw
   end
 
-  # Listens for global button presses.
+  # Listens for global button presses and relays them to the state.
   def button_down(button)
-    @menu.button_down button
     if button == Gosu::KbEscape
       close
+    elsif @state.respond_to? :button_down
+      @state.button_down button
     end
   end
 end

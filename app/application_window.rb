@@ -1,4 +1,5 @@
-require './app/game.rb'
+require './app/game'
+require './app/global'
 require './app/menu'
 
 # Handles the game window and owns the current state, delegating update, draw,
@@ -19,7 +20,9 @@ class ApplicationWindow < Gosu::Window
   def initialize
     super WINDOW_WIDTH, WINDOW_HEIGHT
     self.caption = WINDOW_NAME
-    @state = Menu.new self
+    @state = Menu.new
+
+    Global.instance.window = self
   end
 
   # Called every frame before drawing.

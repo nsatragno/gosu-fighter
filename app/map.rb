@@ -1,5 +1,5 @@
-require './app/global_random.rb'
-require './app/wall.rb'
+require './app/global_random'
+require './app/wall'
 
 # Handles a lot of walls around the player.
 class Map

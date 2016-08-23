@@ -1,5 +1,5 @@
-require './app/map.rb'
-require './app/player.rb'
+require './app/map'
+require './app/player'
 
 # Handles the game loop.
 class Game

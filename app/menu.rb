@@ -1,13 +1,15 @@
+require './app/about'
+
+# Draws the menu.
 class Menu
   MENU_Z_INDEX = 1
 
-  MENU_OPTIONS = [[:play, "Play"], [:about, "About"]]
+  MENU_OPTIONS = [[:play, "Play"], [:about, "Instructions"]]
 
-  def initialize(window)
+  def initialize
     @logo = Sprites::MENU
     @font = Gosu::Font.new 20
     @selected_item_index = 0
-    @window = window
   end
 
   def button_down(button)
@@ -17,9 +19,11 @@ class Menu
       when Gosu::KbS then
         move_selection 1
       when Gosu::KbReturn then
-        if MENU_OPTIONS[@selected_item_index][0] == :play then
-          @window.state = Game.new
-          # TODO implement about page.
+        case MENU_OPTIONS[@selected_item_index][0]
+        when :play then
+          Global.instance.window.state = Game.new
+        when :about then
+          Global.instance.window.state = About.new
         end
     end
   end

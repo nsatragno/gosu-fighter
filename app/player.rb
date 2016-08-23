@@ -1,4 +1,4 @@
-require "./app/sprites.rb"
+require "./app/sprites"
 
 # The game player character.
 class Player

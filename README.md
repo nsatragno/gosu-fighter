@@ -7,8 +7,10 @@ to do.
 
 ## Running
 
+```
 bundle install
 bundle exec ./main.rb
+```
 
 ## TODO
 

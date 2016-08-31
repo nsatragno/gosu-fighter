@@ -1,11 +1,7 @@
-class BulletList
-
-  def initialize
-    @list = []
-  end
+class BulletList < Array
 
   def update
-    @list.delete_if do |bullet|
+    delete_if do |bullet|
       bullet.update
       bullet.x < 0 ||
         bullet.x > ApplicationWindow::WINDOW_WIDTH ||
@@ -15,12 +11,8 @@ class BulletList
   end
 
   def draw
-    @list.each do |bullet|
+    each do |bullet|
       bullet.draw
     end
-  end
-
-  def <<(bullet)
-    @list << bullet
   end
 end

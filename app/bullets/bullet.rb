@@ -4,6 +4,10 @@ class Bullet
 
   attr_reader :x, :y
 
+  def collision_points
+    [[@x, @y]]
+  end
+
   def draw
     @sprite.draw @x, @y, BULLET_Z_INDEX,
                  BULLET_SIZE, BULLET_SIZE, @color

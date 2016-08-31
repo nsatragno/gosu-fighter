@@ -18,8 +18,6 @@ class Player
 
   DEFAULT_COLOR = 0xff_ffffff
 
-  attr_reader :top_aft, :bottom_aft, :nose
-
   def initialize
     @sprite = Sprites::PLAYER
     @pixel = Sprites::PIXEL
@@ -32,6 +30,10 @@ class Player
     # Top left coordinates.
     @x = 10
     @y = 320
+  end
+
+  def collision_points
+    [@top_aft, @bottom_aft, @nose]
   end
 
   def die!

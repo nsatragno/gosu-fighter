@@ -35,12 +35,11 @@ class Map
     @speed = STARTING_SPEED + difficulty * 0.3
   end
 
-  def colliding?(player)
-    @last_nose = player.nose[0]
-    return true if colliding_with_ceiling? player.top_aft
-    return true if colliding_with_floor? player.bottom_aft
-    return true if colliding_with_ceiling? player.nose
-    return true if colliding_with_floor? player.nose
+  def colliding?(entity)
+    entity.collision_points.each do |point|
+      return true if colliding_with_ceiling? point
+      return true if colliding_with_floor? point
+    end
     false
   end
 

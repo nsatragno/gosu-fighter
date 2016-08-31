@@ -24,6 +24,9 @@ class Game
       @map.stop_moving!
       @player.die!
     end
+    @bullets.delete_if do |bullet|
+      @map.colliding? bullet
+    end
     @frames += 1
     if @frames % 256 == 0 then
       @difficulty += 1

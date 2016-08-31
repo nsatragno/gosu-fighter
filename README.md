@@ -7,8 +7,9 @@ to do.
 
 ## Running
 
-./main.rb
+bundle install
+bundle exec ./main.rb
 
 ## TODO
 
-Sounds, enemies, gemfile.
+Sounds, enemies.

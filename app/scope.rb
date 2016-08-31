@@ -2,6 +2,8 @@ class Scope
 
   SCOPE_Z_INDEX = 99
 
+  attr_reader :x, :y
+
   def initialize
     @sprite = Sprites::SCOPE
     @angle = 0

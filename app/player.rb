@@ -1,4 +1,7 @@
+require 'matrix'
+
 require "./app/sprites"
+require './app/bullets/linear_bullet.rb'
 
 # The game player character.
 class Player
@@ -8,6 +11,8 @@ class Player
 
   # Up / Down movement speed.
   STARTING_SPEED = 3
+
+  BULLET_SPEED = 6
 
   PLAYER_Z_ORDER = 10
 
@@ -31,6 +36,10 @@ class Player
 
   def die!
     @state = :dead
+  end
+
+  def fire!(x, y)
+    LinearBullet.new @x, @y, *Vector[x - @x, y - @y].normalize * BULLET_SPEED
   end
 
   def update

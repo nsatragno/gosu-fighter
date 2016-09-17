@@ -44,7 +44,8 @@ class Game
   def button_down(button)
     case button
       when Gosu::MsLeft
-        @bullets << @player.fire!(@scope.x, @scope.y)
+        bullet = @player.fire!(@scope.x, @scope.y)
+        @bullets << bullet if bullet
     end
   end
 end

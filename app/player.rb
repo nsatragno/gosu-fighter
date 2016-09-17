@@ -41,6 +41,7 @@ class Player
   end
 
   def fire!(x, y)
+    return if @state == :dead
     LinearBullet.new @x, @y, *Vector[x - @x, y - @y].normalize * BULLET_SPEED
   end
 

@@ -8,6 +8,7 @@ class Map
   def initialize
     @ceiling = []
     @floor = []
+    @moving = true
 
     @speed = STARTING_SPEED
     @min_breach = 500
@@ -18,6 +19,7 @@ class Map
   end
 
   def update
+    return if not @moving
     create_ceiling! if need_wall? @ceiling
     create_floor! if need_wall? @floor
     [@ceiling, @floor].each do |list|
@@ -30,6 +32,7 @@ class Map
   end
 
   def set_difficulty!(difficulty)
+    return if not @moving
     @min_breach = [50, 500 - difficulty * 50].max
     @max_breach = [100, 600 - difficulty * 50].max
     @speed = STARTING_SPEED + difficulty * 0.3
@@ -44,7 +47,7 @@ class Map
   end
 
   def stop_moving!
-    @speed = 0
+    @moving = false
   end
 
   def draw
@@ -68,12 +71,12 @@ class Map
 
   def colliding_with_ceiling?(point)
     wall_height = get_wall_height_at point[0], @ceiling
-    wall_height >= point[1]
+    wall_height && wall_height >= point[1]
   end
 
   def colliding_with_floor?(point)
     wall_height = get_wall_height_at point[0], @floor
-    wall_height <= point[1]
+    wall_height && wall_height <= point[1]
   end
 
   def need_wall?(wall_list)

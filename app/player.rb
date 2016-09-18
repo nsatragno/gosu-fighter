@@ -14,7 +14,7 @@ class Player
   STARTING_SPEED = 3
 
   BULLET_SPEED = 6
-
+  
   PLAYER_Z_ORDER = 10
 
   DEFAULT_COLOR = 0xff_ffffff

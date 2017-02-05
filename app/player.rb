@@ -53,7 +53,6 @@ class Player
   end
 
   def die!
-    @color = DEAD_COLOR
     @state = :dead
   end
 

@@ -25,13 +25,15 @@ class Player
     @sprite = Sprites::PLAYER
     @pixel = Sprites::PIXEL
 
+    @current_frame = CURRENT_FRAME
+
     @state = :alive
     @color = DEFAULT_COLOR
     @immunity_frame = 0
 
     @lifes = STARTING_LIFES
 
-    @lives = LIVES
+    @lifes = LIFES
 
     @speed = STARTING_SPEED
 
@@ -44,23 +46,21 @@ class Player
     [@top_aft, @bottom_aft, @nose]
   end
 
-<<<<<<< HEAD
   def remove_life!
     if @state != :immune
       @lifes -= 1
       die! if @lifes == 0
       @state = :immune
     end
-=======
-  def remove_life
-    @lives -= 1 if @lives > 1
-    inmune_time 3
-    die! if @lives == 0
->>>>>>> working on player and enemy classes, not working at this state
   end
 
   def die!
+    @color = DEAD_COLOR
     @state = :dead
+  end
+
+  def lifes
+    return @lifes.to_s
   end
 
   def fire!(x, y)

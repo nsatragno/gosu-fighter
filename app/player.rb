@@ -13,10 +13,12 @@ class Player
   STARTING_SPEED = 4
 
   BULLET_SPEED = 6
-  
+
   PLAYER_Z_ORDER = 10
 
   DEFAULT_COLOR = 0xff_ffffff
+
+  LIVES = 5
 
   def initialize
     @sprite = Sprites::PLAYER
@@ -24,6 +26,8 @@ class Player
 
     @state = :alive
     @color = DEFAULT_COLOR
+
+    @lives = LIVES
 
     @speed = STARTING_SPEED
 
@@ -34,6 +38,12 @@ class Player
 
   def collision_points
     [@top_aft, @bottom_aft, @nose]
+  end
+
+  def remove_life
+    @lives -= 1 if @lives > 1
+    inmune_time 3
+    die! if @lives == 0
   end
 
   def die!

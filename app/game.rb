@@ -2,6 +2,7 @@ require './app/bullets/bullet_list.rb'
 require './app/map'
 require './app/player'
 require './app/scope'
+require './app/enemy'
 
 # Handles the game loop.
 class Game
@@ -10,6 +11,8 @@ class Game
     @map = Map.new
     @scope = Scope.new
     @bullets = BulletList.new
+
+    @enemy = Enemy.new
 
     @frames = 0
     @difficulty = 0
@@ -22,7 +25,8 @@ class Game
     @bullets.update
     if @map.colliding? @player then
       @map.stop_moving!
-      @player.die!
+      #@player.die!
+      @player.remove_life
     end
     @bullets.delete_if do |bullet|
       @map.colliding? bullet

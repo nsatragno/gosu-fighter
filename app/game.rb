@@ -11,6 +11,8 @@ class Game
     @map = Map.new
     @scope = Scope.new
     @bullets = BulletList.new
+    @lifes_counter = Gosu::Font.new(20)
+    #@fps_counter = Gosu::Font.new(20)
 
     @enemy = Enemy.new
 
@@ -43,6 +45,8 @@ class Game
     @map.draw
     @scope.draw
     @bullets.draw
+    @lifes_counter.draw("LIFES: #{@player.lifes}", 10, 10, 0, 1.0, 1.0, Gosu::Color::YELLOW)
+    #@fps_counter.draw("FPS: ) #{fps}", 10, 30, 0, 1.0, 1.0, Gosu::Color::YELLOW)
   end
 
   def button_down(button)

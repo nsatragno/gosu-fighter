@@ -18,16 +18,20 @@ class Player
 
   DEFAULT_COLOR = 0xff_ffffff
 
-  LIVES = 5
+  LIFES = 5
+
+  CURRENT_FRAME = 0
 
   def initialize
     @sprite = Sprites::PLAYER
     @pixel = Sprites::PIXEL
 
+    @current_frame = CURRENT_FRAME
+
     @state = :alive
     @color = DEFAULT_COLOR
 
-    @lives = LIVES
+    @lifes = LIFES
 
     @speed = STARTING_SPEED
 
@@ -41,13 +45,20 @@ class Player
   end
 
   def remove_life
-    @lives -= 1 if @lives > 1
-    inmune_time 3
-    die! if @lives == 0
+    if @state != :inmune
+      @lifes -= 1 if @lifes > 0
+      @state = :inmune
+      die! if @lifes == 0
+    end
   end
 
   def die!
+    @color = DEAD_COLOR
     @state = :dead
+  end
+
+  def lifes
+    return @lifes.to_s
   end
 
   def fire!(x, y)
@@ -73,6 +84,30 @@ class Player
       @y = [@y, 0].max
 
       recalculate_collision_points!
+    when :inmune
+      # do the same as being alive
+      delta = 0
+      if Gosu::button_down? Gosu::KbW then
+        delta -= 1
+      end
+      if Gosu::button_down? Gosu::KbS then
+        delta += 1
+      end
+
+      @y += delta * @speed
+      @y = [@y, ApplicationWindow::WINDOW_HEIGHT - @sprite.height].min
+      @y = [@y, 0].max
+
+      recalculate_collision_points!
+
+      # but being inmune for 2 seconds @60fps
+      @color -= 100 if @color > 0
+      if @current_frame < 120
+        @current_frame += 1
+      else
+        @state = :alive
+        @current_frame = 0
+      end
     end
   end
 

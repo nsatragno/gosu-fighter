@@ -2,6 +2,7 @@ require 'matrix'
 
 require "./app/sprites"
 require './app/bullets/linear_bullet.rb'
+require './app/gameover' # in order for the gameover screen to appear
 
 # The game player character.
 class Player
@@ -55,7 +56,8 @@ class Player
   end
 
   def die!
-    @state = :dead
+    #@state = :dead
+    Global.instance.window.state = GameOver.new
   end
 
   def lifes
@@ -69,8 +71,6 @@ class Player
 
   def update
     case @state
-    when :dead
-      @color -= 100 if @color > 0
     when :alive
       move
     when :immune

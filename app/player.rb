@@ -11,7 +11,7 @@ class Player
   HEIGHT = 25
 
   # Up / Down movement speed.
-  STARTING_SPEED = 3
+  STARTING_SPEED = 4
 
   BULLET_SPEED = 6
   

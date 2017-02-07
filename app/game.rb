@@ -2,6 +2,8 @@ require './app/bullets/bullet_list.rb'
 require './app/map'
 require './app/player'
 require './app/scope'
+require './app/enemy'
+require './app/lifes_counter'
 
 # Handles the game loop.
 class Game
@@ -10,6 +12,7 @@ class Game
     @map = Map.new
     @scope = Scope.new
     @bullets = BulletList.new
+    @lifes_counter = LifesCounter.new(@player)
 
     @frames = 0
     @difficulty = 0
@@ -22,7 +25,7 @@ class Game
     @bullets.update
     if @map.colliding? @player then
       @map.stop_moving!
-      @player.die!
+      @player.remove_life!
     end
     @bullets.delete_if do |bullet|
       @map.colliding? bullet
@@ -39,6 +42,7 @@ class Game
     @map.draw
     @scope.draw
     @bullets.draw
+    @lifes_counter.draw
   end
 
   def button_down(button)

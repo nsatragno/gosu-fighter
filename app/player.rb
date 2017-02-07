@@ -64,9 +64,9 @@ class Player
     when :dead
       @color -= 100 if @color > 0
     when :alive
-      player_move_logic
+      move
     when :immune
-      player_move_logic
+      move
 
       @color -= 100 if @color > 0
       if @immunity_frame < 10
@@ -90,7 +90,7 @@ class Player
   end
 
   private
-  def player_move_logic
+  def move
     # do the same as being alive
     delta = 0
     if Gosu::button_down? Gosu::KbW then

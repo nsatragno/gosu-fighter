@@ -1,6 +1,6 @@
 require './app/player'
 
-class Lifes_Counter
+class LifesCounter
   def initialize(player)
     @player = player;
     @counter = Gosu::Font.new(20)

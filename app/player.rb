@@ -69,7 +69,7 @@ class Player
       move
 
       @color -= 100 if @color > 0
-      if @immunity_frame < 10
+      if @immunity_frame < 120
         @immunity_frame += 1
       else
         @state = :alive

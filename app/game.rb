@@ -3,6 +3,7 @@ require './app/map'
 require './app/player'
 require './app/scope'
 require './app/enemy'
+require './app/lifes_counter'
 
 # Handles the game loop.
 class Game
@@ -11,7 +12,7 @@ class Game
     @map = Map.new
     @scope = Scope.new
     @bullets = BulletList.new
-    @lifes_counter = Gosu::Font.new(20)
+    @lifes_counter = Lifes_Counter.new(@player)
 
     @frames = 0
     @difficulty = 0
@@ -24,7 +25,7 @@ class Game
     @bullets.update
     if @map.colliding? @player then
       @map.stop_moving!
-      @player.remove_life
+      @player.remove_life!
     end
     @bullets.delete_if do |bullet|
       @map.colliding? bullet
@@ -41,7 +42,7 @@ class Game
     @map.draw
     @scope.draw
     @bullets.draw
-    @lifes_counter.draw("LIFES: #{@player.lifes}", 10, 10, 0, 1.0, 1.0, Gosu::Color::YELLOW)
+    @lifes_counter.draw
   end
 
   def button_down(button)

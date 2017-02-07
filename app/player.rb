@@ -5,12 +5,13 @@ require './app/bullets/linear_bullet.rb'
 
 # The game player character.
 class Player
+  attr_reader :lifes
 
   WIDTH = 30
   HEIGHT = 25
 
   # Up / Down movement speed.
-  STARTING_SPEED = 4
+  STARTING_SPEED = 3
 
   BULLET_SPEED = 6
 
@@ -18,20 +19,17 @@ class Player
 
   DEFAULT_COLOR = 0xff_ffffff
 
-  LIFES = 5
-
-  CURRENT_FRAME = 0
+  STARTING_LIFES = 5
 
   def initialize
     @sprite = Sprites::PLAYER
     @pixel = Sprites::PIXEL
 
-    @current_frame = CURRENT_FRAME
-
     @state = :alive
     @color = DEFAULT_COLOR
+    @immunity_frame = 0
 
-    @lifes = LIFES
+    @lifes = STARTING_LIFES
 
     @speed = STARTING_SPEED
 
@@ -44,20 +42,16 @@ class Player
     [@top_aft, @bottom_aft, @nose]
   end
 
-  def remove_life
-    if @state != :inmune
-      @lifes -= 1 if @lifes > 0
-      @state = :inmune
+  def remove_life!
+    if @state != :immune
+      @lifes -= 1
       die! if @lifes == 0
+      @state = :immune
     end
   end
 
   def die!
     @state = :dead
-  end
-
-  def lifes
-    return @lifes.to_s
   end
 
   def fire!(x, y)
@@ -70,42 +64,16 @@ class Player
     when :dead
       @color -= 100 if @color > 0
     when :alive
-      delta = 0
-      if Gosu::button_down? Gosu::KbW then
-        delta -= 1
-      end
-      if Gosu::button_down? Gosu::KbS then
-        delta += 1
-      end
+      player_move_logic
+    when :immune
+      player_move_logic
 
-      @y += delta * @speed
-      @y = [@y, ApplicationWindow::WINDOW_HEIGHT - @sprite.height].min
-      @y = [@y, 0].max
-
-      recalculate_collision_points!
-    when :inmune
-      # do the same as being alive
-      delta = 0
-      if Gosu::button_down? Gosu::KbW then
-        delta -= 1
-      end
-      if Gosu::button_down? Gosu::KbS then
-        delta += 1
-      end
-
-      @y += delta * @speed
-      @y = [@y, ApplicationWindow::WINDOW_HEIGHT - @sprite.height].min
-      @y = [@y, 0].max
-
-      recalculate_collision_points!
-
-      # but being inmune for 2 seconds @60fps
       @color -= 100 if @color > 0
-      if @current_frame < 120
-        @current_frame += 1
+      if @immunity_frame < 10
+        @immunity_frame += 1
       else
         @state = :alive
-        @current_frame = 0
+        @immunity_frame = 0
       end
     end
   end
@@ -120,4 +88,23 @@ class Player
     @bottom_aft = [@x + 5, @y + HEIGHT]
     @nose = [@x + WIDTH, @y + HEIGHT / 2]
   end
+
+  private
+  def player_move_logic
+    # do the same as being alive
+    delta = 0
+    if Gosu::button_down? Gosu::KbW then
+      delta -= 1
+    end
+    if Gosu::button_down? Gosu::KbS then
+      delta += 1
+    end
+
+    @y += delta * @speed
+    @y = [@y, ApplicationWindow::WINDOW_HEIGHT - @sprite.height].min
+    @y = [@y, 0].max
+
+    recalculate_collision_points!
+  end
+
 end

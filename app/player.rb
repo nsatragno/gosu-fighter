@@ -2,6 +2,7 @@ require 'matrix'
 
 require "./app/sprites"
 require './app/bullets/linear_bullet.rb'
+require './app/gameover' # in order for the gameover screen to appear
 
 # The game player character.
 class Player
@@ -11,7 +12,7 @@ class Player
   HEIGHT = 25
 
   # Up / Down movement speed.
-  STARTING_SPEED = 3
+  STARTING_SPEED = 4
 
   BULLET_SPEED = 6
 
@@ -30,6 +31,10 @@ class Player
     @immunity_frame = 0
 
     @lifes = STARTING_LIFES
+
+    @lifes = LIFES
+
+    @lifes = LIFES
 
     @speed = STARTING_SPEED
 
@@ -51,7 +56,11 @@ class Player
   end
 
   def die!
-    @state = :dead
+    Global.instance.window.state = GameOver.new
+  end
+
+  def lifes
+    return @lifes.to_s
   end
 
   def fire!(x, y)
@@ -61,8 +70,6 @@ class Player
 
   def update
     case @state
-    when :dead
-      @color -= 100 if @color > 0
     when :alive
       move
     when :immune

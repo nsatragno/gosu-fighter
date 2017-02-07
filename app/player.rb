@@ -5,6 +5,7 @@ require './app/bullets/linear_bullet.rb'
 
 # The game player character.
 class Player
+  attr_reader :lifes
 
   WIDTH = 30
   HEIGHT = 25
@@ -18,12 +19,17 @@ class Player
 
   DEFAULT_COLOR = 0xff_ffffff
 
+  STARTING_LIFES = 5
+
   def initialize
     @sprite = Sprites::PLAYER
     @pixel = Sprites::PIXEL
 
     @state = :alive
     @color = DEFAULT_COLOR
+    @immunity_frame = 0
+
+    @lifes = STARTING_LIFES
 
     @speed = STARTING_SPEED
 
@@ -34,6 +40,14 @@ class Player
 
   def collision_points
     [@top_aft, @bottom_aft, @nose]
+  end
+
+  def remove_life!
+    if @state != :immune
+      @lifes -= 1
+      die! if @lifes == 0
+      @state = :immune
+    end
   end
 
   def die!
@@ -50,19 +64,17 @@ class Player
     when :dead
       @color -= 100 if @color > 0
     when :alive
-      delta = 0
-      if Gosu::button_down? Gosu::KbW then
-        delta -= 1
-      end
-      if Gosu::button_down? Gosu::KbS then
-        delta += 1
-      end
+      move
+    when :immune
+      move
 
-      @y += delta * @speed
-      @y = [@y, ApplicationWindow::WINDOW_HEIGHT - @sprite.height].min
-      @y = [@y, 0].max
-
-      recalculate_collision_points!
+      @color -= 100 if @color > 0
+      if @immunity_frame < 120
+        @immunity_frame += 1
+      else
+        @state = :alive
+        @immunity_frame = 0
+      end
     end
   end
 
@@ -76,4 +88,22 @@ class Player
     @bottom_aft = [@x + 5, @y + HEIGHT]
     @nose = [@x + WIDTH, @y + HEIGHT / 2]
   end
+
+  private
+  def move
+    delta = 0
+    if Gosu::button_down? Gosu::KbW then
+      delta -= 1
+    end
+    if Gosu::button_down? Gosu::KbS then
+      delta += 1
+    end
+
+    @y += delta * @speed
+    @y = [@y, ApplicationWindow::WINDOW_HEIGHT - @sprite.height].min
+    @y = [@y, 0].max
+
+    recalculate_collision_points!
+  end
+
 end

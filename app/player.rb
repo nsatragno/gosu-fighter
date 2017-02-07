@@ -54,7 +54,6 @@ class Player
   end
 
   def die!
-    #@state = :dead
     Global.instance.window.state = GameOver.new
   end
 

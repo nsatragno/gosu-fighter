@@ -91,7 +91,6 @@ class Player
 
   private
   def move
-    # do the same as being alive
     delta = 0
     if Gosu::button_down? Gosu::KbW then
       delta -= 1

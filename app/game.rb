@@ -12,7 +12,7 @@ class Game
     @map = Map.new
     @scope = Scope.new
     @bullets = BulletList.new
-    @LifesCounter = LifesCounter.new(@player)
+    @lifes_counter = LifesCounter.new(@player)
 
     @frames = 0
     @difficulty = 0
@@ -42,7 +42,7 @@ class Game
     @map.draw
     @scope.draw
     @bullets.draw
-    @LifesCounter.draw
+    @lifes_counter.draw
   end
 
   def button_down(button)

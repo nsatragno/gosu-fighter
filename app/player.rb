@@ -26,8 +26,6 @@ class Player
     @sprite = Sprites::PLAYER
     @pixel = Sprites::PIXEL
 
-    @current_frame = CURRENT_FRAME
-
     @state = :alive
     @color = DEFAULT_COLOR
     @immunity_frame = 0

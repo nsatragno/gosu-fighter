@@ -32,8 +32,6 @@ class Player
 
     @lifes = STARTING_LIFES
 
-    @lifes = LIFES
-
     @speed = STARTING_SPEED
 
     # Top left coordinates.

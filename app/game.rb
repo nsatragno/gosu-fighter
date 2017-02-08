@@ -14,8 +14,6 @@ class Game
     @bullets = BulletList.new
     @lifes_counter = LifesCounter.new(@player)
 
-    @enemy = Enemy.new
-
     @frames = 0
     @difficulty = 0
   end

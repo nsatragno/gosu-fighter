@@ -7,6 +7,6 @@ class LivesCounter
   end
 
   def draw
-    @counter.draw("LIVES: #{@player.lifes.to_s}", 10, 10, 0, 1.0, 1.0, Gosu::Color::YELLOW)
+    @counter.draw("LIVES: #{@player.lives.to_s}", 10, 10, 0, 1.0, 1.0, Gosu::Color::YELLOW)
   end
 end

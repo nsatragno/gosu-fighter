@@ -8,4 +8,5 @@ module Sprites
   SCOPE =  Gosu::Image.new "assets/scope.png"
   WALL = Gosu::Image.new "assets/wall.png", :tileable => true
   ENEMY = Gosu::Image.new "assets/enemy.png"
+  ASTEROID = Gosu::Image.new "assets/asteroid.png"
 end

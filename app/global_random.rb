@@ -3,6 +3,10 @@
 module GlobalRandom
   RANDOM = Random.new
 
+  def GlobalRandom.rand_f
+    RANDOM.rand
+  end
+
   def GlobalRandom.rand(num)
     RANDOM.rand num
   end

@@ -3,9 +3,12 @@ require 'matrix'
 require "./app/sprites"
 require './app/bullets/linear_bullet.rb'
 require './app/gameover' # in order for the gameover screen to appear
+require "./app/common/simple_collider"
 
 # The game player character.
 class Player
+  include SimpleCollider
+
   attr_reader :lives
 
   WIDTH = 30

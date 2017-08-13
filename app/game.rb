@@ -1,4 +1,5 @@
 require './app/bullets/bullet_list.rb'
+require './app/enemies/asteroid'
 require './app/map'
 require './app/player'
 require './app/scope'
@@ -13,6 +14,7 @@ class Game
     @scope = Scope.new
     @bullets = BulletList.new
     @lives_counter = LivesCounter.new(@player)
+    @enemies = []
 
     @frames = 0
     @difficulty = 0
@@ -23,6 +25,9 @@ class Game
     @map.update
     @scope.update
     @bullets.update
+    @enemies.each do |enemy|
+      enemy.update
+    end
     if @map.colliding? @player then
       @player.remove_life!
     end
@@ -34,6 +39,21 @@ class Game
       @difficulty += 1
       @map.set_difficulty! @difficulty
     end
+
+    if GlobalRandom::rand(50) == 1
+      @enemies << Asteroid.new
+    end
+    @enemies.delete_if do |enemy|
+      next true if @map.colliding? enemy
+
+      if @player.colliding? enemy
+        @player.remove_life!
+         next true
+      end
+
+      false
+    end
+
   end
 
   def draw
@@ -42,6 +62,9 @@ class Game
     @scope.draw
     @bullets.draw
     @lives_counter.draw
+    @enemies.each do |enemy|
+      enemy.draw
+    end
   end
 
   def button_down(button)

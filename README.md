@@ -14,7 +14,7 @@ bundle exec ./main.rb
 
 ## Authors
 
-* Nicolás Satragno <nsatragno@gmail.com>
+* Nina Satragno <nsatragno@gmail.com>
 * Tomás Di Vito <tomasdv2@gmail.com>
 
 ## TODO
